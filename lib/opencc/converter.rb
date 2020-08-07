@@ -23,10 +23,7 @@ module OpenCC
       synchronize do
         return if closed?
 
-        converted = opencc_convert(opencc, input)
-        # result    = converted.dup
-        # opencc_free(converted)
-        converted.force_encoding(Encoding::UTF_8.to_s)
+        opencc_convert(opencc, input).force_encoding(Encoding::UTF_8.to_s)
       end
     end
 

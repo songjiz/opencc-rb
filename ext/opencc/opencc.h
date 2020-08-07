@@ -6,7 +6,6 @@
 
 static VALUE rb_opencc_open(VALUE self, VALUE rb_cfg);
 static VALUE rb_opencc_convert_utf8(VALUE self, VALUE rb_opencc, VALUE rb_input);
-static VALUE rb_opencc_convert_utf8_free(VALUE self, VALUE rb_str);
 static VALUE rb_opencc_close(VALUE self, VALUE rb_opencc);
 
 #endif /* RUBY_OPENCC_H */

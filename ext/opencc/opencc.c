@@ -28,14 +28,9 @@ static VALUE rb_opencc_convert_utf8(VALUE self, VALUE rb_opencc, VALUE rb_str)
 {
   opencc_t ptr = (opencc_t) FIX2LONG(rb_opencc);
   char* buff = opencc_convert_utf8(ptr, RSTRING_PTR(rb_str), RSTRING_LEN(rb_str));
-  return rb_str_new2(buff);
-}
-
-static VALUE rb_opencc_convert_utf8_free(VALUE self, VALUE rb_str)
-{
-  char *ptr = RSTRING_PTR(rb_str);
-  opencc_convert_utf8_free(ptr);
-  return Qnil;
+  VALUE conveted = rb_str_new2(buff);
+  opencc_convert_utf8_free(buff);
+  return conveted;
 }
 
 static VALUE rb_opencc_close(VALUE self, VALUE rb_opencc)
@@ -59,5 +54,4 @@ void Init_opencc(void)
   rb_define_private_method(rb_mOpenCC, "opencc_open", rb_opencc_open, 1);
   rb_define_private_method(rb_mOpenCC, "opencc_close", rb_opencc_close, 1);
   rb_define_private_method(rb_mOpenCC, "opencc_convert", rb_opencc_convert_utf8, 2);
-  rb_define_private_method(rb_mOpenCC, "opencc_free", rb_opencc_convert_utf8_free, 1);
 }
