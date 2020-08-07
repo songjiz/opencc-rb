@@ -45,7 +45,7 @@ module OpenCC
     private
 
     def synchronize(&block)
-      @mutex.synchronize &block
+      @mutex.synchronize(&block)
     end
 
     def opencc
