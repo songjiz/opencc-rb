@@ -45,6 +45,9 @@ converter.closed? # => true
 converter.close # => false
 converter.convert('汉字') # => nil
 ```
+## Bugs
+
+- tw2t always return nil ):
 
 ## Development
 

@@ -14,6 +14,7 @@ static VALUE rb_opencc_open(VALUE self, VALUE rb_cfg)
 
   ptr = opencc_open(cfg);
 
+  // On error the return value will be (opencc_t) -1.
   if (ptr == (opencc_t)-1)
   {
     return Qnil;
@@ -24,18 +25,18 @@ static VALUE rb_opencc_open(VALUE self, VALUE rb_cfg)
   }
 }
 
-static VALUE rb_opencc_convert_utf8(VALUE self, VALUE rb_opencc, VALUE rb_str)
+static VALUE rb_opencc_convert_utf8(VALUE self, VALUE rb_ocid, VALUE rb_str)
 {
-  opencc_t ptr = (opencc_t) FIX2LONG(rb_opencc);
-  char* buff = opencc_convert_utf8(ptr, RSTRING_PTR(rb_str), RSTRING_LEN(rb_str));
+  opencc_t ptr = (opencc_t) FIX2LONG(rb_ocid);
+  char * buff = opencc_convert_utf8(ptr, RSTRING_PTR(rb_str), RSTRING_LEN(rb_str));
   VALUE conveted = rb_str_new2(buff);
   opencc_convert_utf8_free(buff);
   return conveted;
 }
 
-static VALUE rb_opencc_close(VALUE self, VALUE rb_opencc)
+static VALUE rb_opencc_close(VALUE self, VALUE rb_ocid)
 {
-  opencc_t ptr = (opencc_t) FIX2LONG(rb_opencc);
+  opencc_t ptr = (opencc_t) FIX2LONG(rb_ocid);
 
   if (opencc_close(ptr) == 0)
   {
