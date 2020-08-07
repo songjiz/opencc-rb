@@ -7,19 +7,13 @@ A gem for [OpenCC](https://github.com/BYVoid/OpenCC).
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'opencc-rb'
+gem 'opencc-rb', git: 'https://github.com/songjiz/opencc-rb'
 ```
 
 And then execute:
 
 ```shell
 bundle install
-```
-
-Or install it yourself as:
-
-```shell
-gem install opencc
 ```
 
 ## Usage
