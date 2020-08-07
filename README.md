@@ -22,17 +22,17 @@ bundle install
 require 'opencc'
 
 OpenCC.with(:s2t) do |ct|
-  ct.convert('漢字') # => '汉字'
+  ct.convert('汉字') # => '漢字'
 end
 
 # same as
 
-OpenCC::Converter.with(:s2t) do |ct|
+OpenCC::Converter.with(:t2s) do |ct|
   ct.convert('漢字') # => '汉字'
 end
 
 # Or
-converter = OpenCC::Converter.new(:t2s)
+converter = OpenCC::Converter.new(:s2t)
 converter.convert('汉字') # => '漢字'
 converter.close # => true
 converter.closed? # => true
