@@ -41,7 +41,7 @@ converter.convert('汉字') # => nil
 ```
 ## Known Bugs
 
-- tw2t always return nil ):
+- tw2t always return nil ): [Issue](https://github.com/BYVoid/OpenCC/issues/519)
 
 ## Development
 

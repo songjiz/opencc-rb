@@ -1,6 +1,7 @@
 module OpenCC
   class Converter
     ENCODING = Encoding::UTF_8.to_s
+    DEFAULT_CFG = 's2t'
     
     include OpenCC
 
@@ -17,8 +18,8 @@ module OpenCC
 
     # *<tt>:cfg</tt> - The config file name without .json suffix, default "s2t"
     #   [s2t|t2s|s2tw|tw2s|s2hk|hk2s|s2twp|tw2sp|t2tw|hk2t|t2hk|t2jp|jp2t|tw2t]
-    def initialize(cfg = :s2t)
-      @cfg    = cfg
+    def initialize(cfg = nil)
+      @cfg    = (cfg || DEFAULT_CFG).to_s
       @closed = false
       @mutex  = Mutex.new
     end
@@ -36,13 +37,13 @@ module OpenCC
     end
 
     # It will raise an +RuntimeError+ exception if can not make an instance of OpenCC.
-    def convert!(input)
+    def convert!(input, encoding = nil)
       synchronize do
         return if closed?
         
         @ocid ||= opencc_open(cfg_file_name)
         
-        if @ocid.nil?
+        if ocid.nil?
           raise RuntimeError, "Can not make an instance of OpenCC with configuration file #{cfg_file_name}"
         end
 
@@ -73,7 +74,7 @@ module OpenCC
     end
 
     def cfg_file_name
-      @cfg && "#{@cfg}.json"
+      "#{@cfg}.json"
     end
   end
 end
