@@ -1,8 +1,9 @@
 module OpenCC
   class Converter
-    ENCODING = Encoding::UTF_8.to_s
+    SUPPORTED_CFGS = %w[ s2t t2s s2tw tw2s s2hk hk2s s2twp tw2sp t2tw hk2t t2hk t2jp jp2t tw2t ]
     DEFAULT_CFG = 's2t'
-    
+    ENCODING = Encoding::UTF_8.to_s
+
     include OpenCC
 
     class << self
@@ -17,9 +18,13 @@ module OpenCC
     attr_reader :cfg, :ocid
 
     # *<tt>:cfg</tt> - The config file name without .json suffix, default "s2t"
-    #   [s2t|t2s|s2tw|tw2s|s2hk|hk2s|s2twp|tw2sp|t2tw|hk2t|t2hk|t2jp|jp2t|tw2t]
     def initialize(cfg = nil)
-      @cfg    = (cfg || DEFAULT_CFG).to_s
+      @cfg = (cfg || DEFAULT_CFG).to_s
+
+      if !SUPPORTED_CFGS.include?(@cfg)
+        raise ArgumentError, "`#{@cfg}` config file name not supported, have to be one of #{SUPPORTED_CFGS}"
+      end
+
       @closed = false
       @mutex  = Mutex.new
     end
