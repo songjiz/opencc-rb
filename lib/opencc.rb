@@ -4,7 +4,7 @@ require "opencc/converter"
 
 module OpenCC
   class << self
-    def with(cfg, &block)
+    def with(cfg = nil, &block)
       Converter.with cfg, &block
     end
   end

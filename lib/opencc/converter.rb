@@ -6,7 +6,7 @@ module OpenCC
     include OpenCC
 
     class << self
-      def with(cfg)
+      def with(cfg = nil)
         converter = new(cfg)
         yield converter
       ensure
