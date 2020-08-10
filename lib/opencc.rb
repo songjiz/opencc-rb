@@ -7,5 +7,9 @@ module OpenCC
     def with(cfg = nil, &block)
       Converter.with cfg, &block
     end
+
+    def [](cfg)
+      Converter[cfg]
+    end
   end
 end

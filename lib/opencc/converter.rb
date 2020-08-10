@@ -4,7 +4,7 @@ module OpenCC
     DEFAULT_CFG = 's2t'
     ENCODING = Encoding::UTF_8.to_s
 
-    include OpenCC
+    include OpenCC::Context
 
     class << self
       def with(cfg = nil)
@@ -13,6 +13,8 @@ module OpenCC
       ensure
         converter.close
       end
+
+      alias :[] :new
     end
     
     attr_reader :cfg, :ocid
