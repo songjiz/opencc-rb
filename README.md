@@ -16,6 +16,12 @@ And then execute:
 bundle install
 ```
 
+Or install it yourself as:
+
+```shell
+gem install opencc-rb
+```
+
 ## Usage
 
 ```ruby
@@ -33,6 +39,8 @@ end
 
 # Or
 converter = OpenCC::Converter.new(:s2t)
+# converter = OpenCC::Converter[:s2t]
+# converter = OpenCC[:s2t]
 converter.convert('汉字') # => '漢字'
 converter.close # => true
 converter.closed? # => true
