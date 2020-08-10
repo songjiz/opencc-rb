@@ -1,7 +1,7 @@
 #include "opencc.h"
 
 VALUE rb_mOpenCC;
-VALUE rb_mOpenCC_Mixin;
+VALUE rb_mOpenCC_Context;
 
 static VALUE rb_opencc_open(VALUE self, VALUE rb_cfg)
 {
@@ -52,9 +52,9 @@ static VALUE rb_opencc_close(VALUE self, VALUE rb_ocid)
 void Init_opencc(void)
 {
   rb_mOpenCC = rb_define_module("OpenCC");
-  rb_mOpenCC_Mixin = rb_define_module_under(rb_mOpenCC, "Context");
+  rb_mOpenCC_Context = rb_define_module_under(rb_mOpenCC, "Context");
 
-  rb_define_private_method(rb_mOpenCC_Mixin, "opencc_open", rb_opencc_open, 1);
-  rb_define_private_method(rb_mOpenCC_Mixin, "opencc_close", rb_opencc_close, 1);
-  rb_define_private_method(rb_mOpenCC_Mixin, "opencc_convert", rb_opencc_convert_utf8, 2);
+  rb_define_private_method(rb_mOpenCC_Context, "opencc_open", rb_opencc_open, 1);
+  rb_define_private_method(rb_mOpenCC_Context, "opencc_close", rb_opencc_close, 1);
+  rb_define_private_method(rb_mOpenCC_Context, "opencc_convert", rb_opencc_convert_utf8, 2);
 }
