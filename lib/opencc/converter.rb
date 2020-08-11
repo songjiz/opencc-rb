@@ -16,7 +16,7 @@ module OpenCC
       alias :[] :new
     end
     
-    attr_reader :cfg, :ocid
+    attr_reader :cfg, :occid
 
     # *<tt>:cfg</tt> - The config file name without .json suffix, default "s2t"
     def initialize(cfg = nil)
@@ -34,36 +34,36 @@ module OpenCC
       synchronize do
         return if closed?
         
-        @ocid ||= opencc_open(cfg_file_name)
+        @occid ||= opencc_open(cfg_file_name)
 
-        if ocid
-          opencc_convert(ocid, input)
+        if occid
+          opencc_convert(occid, input)
         end
       end
     end
 
     # It will raise an +RuntimeError+ exception if can not make an instance of OpenCC.
-    def convert!(input, encoding = nil)
+    def convert!(input)
       synchronize do
         return if closed?
         
-        @ocid ||= opencc_open(cfg_file_name)
+        @occid ||= opencc_open(cfg_file_name)
         
-        if ocid.nil?
+        if occid.nil?
           raise RuntimeError, "Can not make an instance of OpenCC with configuration file #{cfg_file_name}"
         end
 
-        opencc_convert(ocid, input)
+        opencc_convert(occid, input)
       end
     end
 
     def close
       synchronize do
         return false if closed?
-        return false if ocid.nil?
+        return false if occid.nil?
         
-        if opencc_close(ocid)
-          @ocid = nil
+        if opencc_close(occid)
+          @occid = nil
           @closed = true
         end
       end

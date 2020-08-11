@@ -26,18 +26,18 @@ static VALUE rb_opencc_open(VALUE self, VALUE rb_cfg)
   }
 }
 
-static VALUE rb_opencc_convert_utf8(VALUE self, VALUE rb_ocid, VALUE rb_str)
+static VALUE rb_opencc_convert_utf8(VALUE self, VALUE rc_occid, VALUE rb_str)
 {
-  opencc_t ptr = (opencc_t) FIX2LONG(rb_ocid);
+  opencc_t ptr = (opencc_t) FIX2LONG(rc_occid);
   char * buff = opencc_convert_utf8(ptr, RSTRING_PTR(rb_str), RSTRING_LEN(rb_str));
   VALUE conveted = rb_utf8_str_new_cstr(buff);
   opencc_convert_utf8_free(buff);
   return conveted;
 }
 
-static VALUE rb_opencc_close(VALUE self, VALUE rb_ocid)
+static VALUE rb_opencc_close(VALUE self, VALUE rc_occid)
 {
-  opencc_t ptr = (opencc_t) FIX2LONG(rb_ocid);
+  opencc_t ptr = (opencc_t) FIX2LONG(rc_occid);
 
   if (opencc_close(ptr) == 0)
   {
