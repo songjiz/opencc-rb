@@ -4,7 +4,43 @@ A gem for [OpenCC](https://github.com/BYVoid/OpenCC).
 
 ## Installation
 
-Add this line to your application's Gemfile:
+You have to install OpenCC firstly.
+
+MacOS:
+
+```shell
+brew install opencc
+```
+
+Debian/Ubuntu:
+
+```shell
+sudo apt-get install libopencc-dev
+```
+Archlinux:
+
+```shell
+sudo pacman -Sy opencc
+```
+
+Fedora:
+
+```shell
+sudo yum install opencc-devel
+```
+
+Or install from source code:
+
+```shell
+cd /usr/src
+git clone https://github.com/BYVoid/OpenCC
+cd OpenCC
+git checkout ver.1.1.1
+make PREFIX=/usr/local
+sudo make install
+```
+
+Then add this line to your application's Gemfile:
 
 ```ruby
 gem 'opencc-rb', git: 'https://github.com/songjiz/opencc-rb'

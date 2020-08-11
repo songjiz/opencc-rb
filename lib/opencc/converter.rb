@@ -2,7 +2,6 @@ module OpenCC
   class Converter
     SUPPORTED_CFGS = %w[ s2t t2s s2tw tw2s s2hk hk2s s2twp tw2sp t2tw hk2t t2hk t2jp jp2t tw2t ]
     DEFAULT_CFG = 's2t'
-    ENCODING = Encoding::UTF_8.to_s
 
     include OpenCC::Context
 
@@ -38,7 +37,7 @@ module OpenCC
         @ocid ||= opencc_open(cfg_file_name)
 
         if ocid
-          opencc_convert(ocid, input).force_encoding(ENCODING)
+          opencc_convert(ocid, input)
         end
       end
     end
@@ -54,7 +53,7 @@ module OpenCC
           raise RuntimeError, "Can not make an instance of OpenCC with configuration file #{cfg_file_name}"
         end
 
-        opencc_convert(ocid, input).force_encoding(ENCODING)
+        opencc_convert(ocid, input)
       end
     end
 

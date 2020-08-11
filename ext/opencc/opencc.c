@@ -30,7 +30,7 @@ static VALUE rb_opencc_convert_utf8(VALUE self, VALUE rb_ocid, VALUE rb_str)
 {
   opencc_t ptr = (opencc_t) FIX2LONG(rb_ocid);
   char * buff = opencc_convert_utf8(ptr, RSTRING_PTR(rb_str), RSTRING_LEN(rb_str));
-  VALUE conveted = rb_str_new2(buff);
+  VALUE conveted = rb_utf8_str_new_cstr(buff);
   opencc_convert_utf8_free(buff);
   return conveted;
 }
