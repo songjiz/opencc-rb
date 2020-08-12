@@ -2,6 +2,10 @@
 
 A gem for [OpenCC](https://github.com/BYVoid/OpenCC).
 
+>Open Chinese Convert (OpenCC, 開放中文轉換) is an opensource project for conversions between Traditional Chinese, Simplified Chinese and Japanese Kanji (Shinjitai). It supports character-level and phrase-level conversion, character variant conversion and regional idioms among Mainland China, Taiwan and Hong Kong. This is not translation tool between Mandarin and Cantonese, etc.
+
+> 中文簡繁轉換開源項目，支持詞彙級別的轉換、異體字轉換和地區習慣用詞轉換（中國大陸、臺灣、香港、日本新字體）。不提供普通話與粵語的轉換。
+
 ## Installation
 
 You have to install OpenCC firstly.
@@ -83,9 +87,6 @@ converter.closed? # => true
 converter.close # => false
 converter.convert('汉字') # => nil
 ```
-## Known Bugs
-
-- tw2t always return nil ): [Issue](https://github.com/BYVoid/OpenCC/issues/519)
 
 ## Development
 
