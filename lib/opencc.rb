@@ -4,12 +4,12 @@ require "opencc/converter"
 
 module OpenCC
   class << self
-    def with(cfg = nil, &block)
-      Converter.with cfg, &block
+    def with(config = nil, &block)
+      Converter.with(config, &block)
     end
 
-    def [](cfg)
-      Converter[cfg]
+    def [](config)
+      Converter[config]
     end
   end
 end

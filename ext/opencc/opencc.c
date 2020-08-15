@@ -26,13 +26,13 @@ static VALUE rb_opencc_open(VALUE self, VALUE rb_cfg)
   }
 }
 
-static VALUE rb_opencc_convert_utf8(VALUE self, VALUE rc_occid, VALUE rb_str)
+static VALUE rb_opencc_convert(VALUE self, VALUE rc_occid, VALUE rb_str)
 {
   opencc_t ptr = (opencc_t) FIX2LONG(rc_occid);
   char * buff = opencc_convert_utf8(ptr, RSTRING_PTR(rb_str), RSTRING_LEN(rb_str));
-  VALUE conveted = rb_utf8_str_new_cstr(buff);
+  VALUE converted = rb_utf8_str_new_cstr(buff);
   opencc_convert_utf8_free(buff);
-  return conveted;
+  return converted;
 }
 
 static VALUE rb_opencc_close(VALUE self, VALUE rc_occid)
@@ -56,5 +56,5 @@ void Init_opencc(void)
 
   rb_define_private_method(rb_mOpenCC_Context, "opencc_open", rb_opencc_open, 1);
   rb_define_private_method(rb_mOpenCC_Context, "opencc_close", rb_opencc_close, 1);
-  rb_define_private_method(rb_mOpenCC_Context, "opencc_convert", rb_opencc_convert_utf8, 2);
+  rb_define_private_method(rb_mOpenCC_Context, "opencc_convert", rb_opencc_convert, 2);
 }
