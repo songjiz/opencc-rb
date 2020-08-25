@@ -3,11 +3,7 @@ language: ruby
 os:
   - linux
   - osx
-jobs:
-  include:
-    - os: linux
-      dist: focal
-    - os: osx
+dist: focal
 cache: bundler
 rvm:
   - 2.7.0
@@ -20,5 +16,6 @@ addons:
 before_install:
   - gem install bundler -v 2.1.4
 install:
-    - ./.travis/install.sh    
+    - ./.travis/install.sh 
+    - bundle install
 script: bundle exec rake

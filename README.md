@@ -1,4 +1,4 @@
-# OpenCC
+# OpenCC [![Build Status](https://travis-ci.org/songjiz/opencc-rb.svg?branch=master)](https://travis-ci.org/songjiz/opencc-rb)
 
 ## Description
 
