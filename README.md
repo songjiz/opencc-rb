@@ -17,7 +17,7 @@ brew install opencc
 Debian/Ubuntu:
 
 ```shell
-sudo apt install libopencc-dev
+sudo apt install opencc
 ```
 Archlinux:
 
