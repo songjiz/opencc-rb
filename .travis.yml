@@ -4,6 +4,7 @@ cache: bundler
 rvm:
   - 2.7.0
 before_install:
-  - sudo apt install libopencc-dev
+  - sudo apt update
+  - sudo apt install -y libopencc-dev
   - gem install bundler -v 2.1.4
 script: bundle exec rake
