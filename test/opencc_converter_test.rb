@@ -18,7 +18,6 @@ class OpenCC::ConverterTest < Minitest::Test
   def test_that_it_respond_to_convert
     converter = OpenCC::Converter[:s2t]
     assert_respond_to converter, :convert
-    assert_respond_to converter, :convert!
   end
 
   def test_that_it_respond_to_close
@@ -40,98 +39,93 @@ class OpenCC::ConverterTest < Minitest::Test
   end
 
   def test_hk2s
-    OpenCC::Converter.with(:hk2s) do |ct|
-      input  = get_input(ct.config)
-      answer = get_answer(ct.config)
-      assert_equal ct.convert(input), answer
-    end
+    cfg    = :hk2s
+    input  = get_input(cfg)
+    answer = get_answer(cfg)
+    assert_equal OpenCC.hk2s(input), answer
+  end
+
+  def test_hk2t
+    cfg    = :hk2t
+    input  = get_input(cfg)
+    answer = get_answer(cfg)
+    assert_equal OpenCC.hk2t(input), answer
   end
 
   def test_jp2t
-    OpenCC::Converter.with(:jp2t) do |ct|
-      input  = get_input(ct.config)
-      answer = get_answer(ct.config)
-      assert_equal ct.convert(input), answer
-    end
+    cfg    = :jp2t
+    input  = get_input(cfg)
+    answer = get_answer(cfg)
+    assert_equal OpenCC.jp2t(input), answer
   end
 
   def test_s2hk
-    OpenCC::Converter.with(:s2hk) do |ct|
-      input  = get_input(ct.config)
-      answer = get_answer(ct.config)
-      assert_equal ct.convert(input), answer
-    end
+    cfg    = :s2hk
+    input  = get_input(cfg)
+    answer = get_answer(cfg)
+    assert_equal OpenCC.s2hk(input), answer
   end
 
   def test_s2t
-    OpenCC::Converter.with(:s2t) do |ct|
-      input  = get_input(ct.config)
-      answer = get_answer(ct.config)
-      assert_equal ct.convert(input), answer
-    end
+    cfg    = :s2t
+    input  = get_input(cfg)
+    answer = get_answer(cfg)
+    assert_equal OpenCC.s2t(input), answer
   end
 
   def test_s2tw
-    OpenCC::Converter.with(:s2tw) do |ct|
-      input  = get_input(ct.config)
-      answer = get_answer(ct.config)
-      assert_equal ct.convert(input), answer
-    end
+    cfg    = :s2tw
+    input  = get_input(cfg)
+    answer = get_answer(cfg)
+    assert_equal OpenCC.s2tw(input), answer
   end
 
   def test_s2twp
-    OpenCC::Converter.with(:s2twp) do |ct|
-      input  = get_input(ct.config)
-      answer = get_answer(ct.config)
-      assert_equal ct.convert(input), answer
-    end
+    cfg    = :s2twp
+    input  = get_input(cfg)
+    answer = get_answer(cfg)
+    assert_equal OpenCC.s2twp(input), answer
   end
 
   def test_t2hk
-    OpenCC::Converter.with(:t2hk) do |ct|
-      input  = get_input(ct.config)
-      answer = get_answer(ct.config)
-      assert_equal ct.convert(input), answer
-    end
+    cfg    = :t2hk
+    input  = get_input(cfg)
+    answer = get_answer(cfg)
+    assert_equal OpenCC.t2hk(input), answer
   end
 
   def test_t2jp
-    OpenCC::Converter.with(:t2jp) do |ct|
-      input  = get_input(ct.config)
-      answer = get_answer(ct.config)
-      assert_equal ct.convert(input), answer
-    end
+    cfg    = :t2jp
+    input  = get_input(cfg)
+    answer = get_answer(cfg)
+    assert_equal OpenCC.t2jp(input), answer
   end
 
   def test_t2s
-    OpenCC::Converter.with(:t2s) do |ct|
-      input  = get_input(ct.config)
-      answer = get_answer(ct.config)
-      assert_equal ct.convert(input), answer
-    end
+    cfg    = :t2s
+    input  = get_input(cfg)
+    answer = get_answer(cfg)
+    assert_equal OpenCC.t2s(input), answer
   end
 
   def test_tw2s
-    OpenCC::Converter.with(:tw2s) do |ct|
-      input  = get_input(ct.config)
-      answer = get_answer(ct.config)
-      assert_equal ct.convert(input), answer
-    end
+    cfg    = :tw2s
+    input  = get_input(cfg)
+    answer = get_answer(cfg)
+    assert_equal OpenCC.tw2s(input), answer
   end
 
   def test_tw2sp
-    OpenCC::Converter.with(:tw2sp) do |ct|
-      input  = get_input(ct.config)
-      answer = get_answer(ct.config)
-      assert_equal ct.convert(input), answer
-    end
+    cfg    = :tw2sp
+    input  = get_input(cfg)
+    answer = get_answer(cfg)
+    assert_equal OpenCC.tw2sp(input), answer
   end
 
-  # def test_tw2t
-  #   OpenCC::Converter.with(:tw2t) do |ct|
-  #     input  = get_input(ct.config)
-  #     answer = get_answer(ct.config)
-  #     assert_equal ct.convert(input), answer
-  #   end
-  # end
+  def test_tw2t
+    cfg    = :tw2t
+    input  = get_input(cfg)
+    answer = get_answer(cfg)
+    assert_equal OpenCC.tw2t(input), answer
+  end
 end

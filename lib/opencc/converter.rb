@@ -1,8 +1,5 @@
 module OpenCC
   class Converter
-    SUPPORTED_CFGS = %w[ s2t t2s s2tw tw2s s2hk hk2s s2twp tw2sp t2tw hk2t t2hk t2jp jp2t tw2t ]
-    DEFAULT_CFG = 's2t'
-
     include OpenCC::Context
 
     class << self
@@ -21,10 +18,10 @@ module OpenCC
 
     # *<tt>:config</tt> - The config file name without .json suffix, default "s2t"
     def initialize(config = nil)
-      @config = (config || DEFAULT_CFG).to_s
+      @config = (config || OpenCC::DEFAULT_CFG).to_s
 
       if !SUPPORTED_CFGS.include?(@config)
-        raise ArgumentError, "`#{@config}` config file name not supported, have to be one of #{SUPPORTED_CFGS}"
+        raise ArgumentError, "Unsupported configuration name #{@config.inspect}, expected one of #{OpenCC::SUPPORTED_CFGS.join(', ')}"
       end
 
       @closed = false
@@ -36,24 +33,11 @@ module OpenCC
         return if closed?
         
         @occid ||= opencc_open(config_file_name)
-
-        if occid
-          opencc_convert(occid, input)
-        end
-      end
-    end
-
-    # It will raise an +RuntimeError+ exception if can not make an instance of OpenCC.
-    def convert!(input)
-      synchronize do
-        return if closed?
-        
-        @occid ||= opencc_open(config_file_name)
         
         if occid.nil?
-          raise RuntimeError, "Can not make an instance of OpenCC with configuration file #{config_file_name}"
+          raise RuntimeError, "OpenCC open failed with #{config_file_name}"
         end
-
+        
         opencc_convert(occid, input)
       end
     end
@@ -76,13 +60,12 @@ module OpenCC
     end
 
     private
+      def synchronize(&block)
+        @mutex.synchronize(&block)
+      end
 
-    def synchronize(&block)
-      @mutex.synchronize(&block)
-    end
-
-    def config_file_name
-      "#{@config}.json"
-    end
+      def config_file_name
+        "#{@config}.json"
+      end
   end
 end
