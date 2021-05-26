@@ -3,7 +3,6 @@ module OpenCC
     include OpenCC::Context
 
     class << self
-      # The converter will automatically be closed when the block terminates.
       def with(config = nil)
         converter = new(config)
         yield converter
@@ -18,10 +17,10 @@ module OpenCC
 
     # *<tt>:config</tt> - The config file name without .json suffix, default "s2t"
     def initialize(config = nil)
-      @config = (config || OpenCC::DEFAULT_CFG).to_s
+      @config = (config || OpenCC::DEFAULT_CONFIG).to_s
 
-      if !SUPPORTED_CFGS.include?(@config)
-        raise ArgumentError, "Unsupported configuration name #{@config.inspect}, expected one of #{OpenCC::SUPPORTED_CFGS.join(', ')}"
+      if !OpenCC::CONFIGS.include?(@config)
+        raise ArgumentError, "Unsupported configuration name #{@config.inspect}, expected one of #{OpenCC::CONFIGS.join(', ')}"
       end
 
       @closed = false
