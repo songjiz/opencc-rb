@@ -1,4 +1,4 @@
-require_relative 'lib/opencc/version'
+require_relative "lib/opencc/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "opencc-rb"

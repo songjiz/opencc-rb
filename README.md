@@ -45,7 +45,7 @@ sudo make install
 Then add this line to your application's Gemfile:
 
 ```ruby
-gem 'opencc-rb', git: 'https://github.com/songjiz/opencc-rb'
+gem 'opencc-rb'
 ```
 
 And then execute:
