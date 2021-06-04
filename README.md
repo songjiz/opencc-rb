@@ -63,9 +63,8 @@ gem install opencc-rb
 ## Usage
 
 ```ruby
-require 'opencc'
+require "opencc"
 
-# Recommended.
 # The converter will automatically be closed when the block terminates.
 OpenCC.with(:s2t) do |ct|
   ct.convert("汉字") # => "漢字"
@@ -89,11 +88,13 @@ OpenCC.tw2t("想到自己一緊張就口吃，我就沒胃口吃飯") # => "想�
 
 # Or
 converter = OpenCC[:s2t]
-converter.convert('汉字') # => '漢字'
+converter = OpenCC.new(:s2t)
+converter = OpenCC::Converter.new(:s2t)
+converter.convert("汉字") # => '漢字'
 converter.close # => true
 converter.closed? # => true
 converter.close # => false
-converter.convert('汉字') # => nil
+converter.convert("汉字") # => nil
 ```
 
 ## Development

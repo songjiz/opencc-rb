@@ -1,11 +1,9 @@
 module OpenCC
   class Converter
     include OpenCC::Mixin
-    Unspecified = Object.new
-    private_constant :Unspecified
 
     class << self
-      def with(config = nil, &block)
+      def with(config, &block)
         converter = new(config)
         if block.arity == 0
           converter.instance_eval(&:block)
@@ -15,15 +13,13 @@ module OpenCC
       ensure
         converter.close
       end
-
-      alias :[] :new
     end
     
     attr_reader :config
 
     # *<tt>:config</tt> - The config file name without .json suffix, default "s2t"
-    def initialize(config = OpenCC::DEFAULT_CONFIG)
-      @config = config.to_s
+    def initialize(config = nil)
+      @config = (config || OpenCC::DEFAULT_CONFIG).to_s
 
       if !OpenCC::CONFIGS.include?(@config)
         raise ArgumentError, "Unsupported configuration name #{@config.inspect}, expected one of #{OpenCC::CONFIGS.join(', ')}"

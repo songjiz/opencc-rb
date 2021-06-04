@@ -7,12 +7,16 @@ module OpenCC
   DEFAULT_CONFIG = "s2t"
 
   class << self
-    def with(config = nil, &block)
+    def with(config, &block)
       Converter.with(config, &block)
     end
 
     def [](config)
-      Converter[config]
+      config && new(config)
+    end
+
+    def new(config = nil)
+      Converter.new(config)
     end
 
     CONFIGS.each do |config|

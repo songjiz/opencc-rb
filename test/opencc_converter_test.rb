@@ -10,18 +10,18 @@ class OpenCC::ConverterTest < Minitest::Test
   end
 
   def test_that_it_respond_to_config
-    converter = OpenCC::Converter[:s2t]
+    converter = OpenCC::Converter.new(:s2t)
     assert_respond_to converter, :config
     assert_equal converter.config, 's2t'
   end
 
   def test_that_it_respond_to_convert
-    converter = OpenCC::Converter[:s2t]
+    converter = OpenCC::Converter.new(:s2t)
     assert_respond_to converter, :convert
   end
 
   def test_that_it_respond_to_close
-    converter = OpenCC::Converter[:s2t]
+    converter = OpenCC::Converter.new(:s2t)
     assert_respond_to converter, :close
   end
 
