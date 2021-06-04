@@ -1,11 +1,17 @@
 module OpenCC
   class Converter
-    include OpenCC::Context
+    include OpenCC::Mixin
+    Unspecified = Object.new
+    private_constant :Unspecified
 
     class << self
-      def with(config = nil)
+      def with(config = nil, &block)
         converter = new(config)
-        yield converter
+        if block.arity == 0
+          converter.instance_eval(&:block)
+        else
+          yield converter
+        end
       ensure
         converter.close
       end
@@ -13,44 +19,42 @@ module OpenCC
       alias :[] :new
     end
     
-    attr_reader :config, :occid
+    attr_reader :config
 
     # *<tt>:config</tt> - The config file name without .json suffix, default "s2t"
-    def initialize(config = nil)
-      @config = (config || OpenCC::DEFAULT_CONFIG).to_s
+    def initialize(config = OpenCC::DEFAULT_CONFIG)
+      @config = config.to_s
 
       if !OpenCC::CONFIGS.include?(@config)
         raise ArgumentError, "Unsupported configuration name #{@config.inspect}, expected one of #{OpenCC::CONFIGS.join(', ')}"
       end
 
-      @closed = false
       @mutex  = Mutex.new
+      @closed = false
     end
 
     def convert(input)
       synchronize do
         return if closed?
         
-        @occid ||= opencc_open(config_file_name)
+        @__opencc__ ||= opencc_open(config_file_name)
         
-        if occid.nil?
-          raise RuntimeError, "OpenCC open failed with #{config_file_name}"
+        if @__opencc__.nil?
+          raise RuntimeError, "OpenCC failed to load (#{config_file_name})"
         end
         
-        opencc_convert(occid, input)
+        opencc_convert(@__opencc__, input.force_encoding(Encoding::UTF_8))
       end
     end
 
-    # Destroys the instance of opencc.
     def close
       synchronize do
         return false if closed?
-        return false if occid.nil?
-        
-        if opencc_close(occid)
-          @occid = nil
-          @closed = true
-        end
+        return false if @__opencc__.nil?
+        return false if !opencc_close(@__opencc__)
+
+        @__opencc__ = nil
+        @closed = true
       end
     end
 

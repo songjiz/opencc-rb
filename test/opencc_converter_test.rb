@@ -25,19 +25,6 @@ class OpenCC::ConverterTest < Minitest::Test
     assert_respond_to converter, :close
   end
 
-  def test_that_it_respond_to_occid
-    converter = OpenCC::Converter[:s2t]
-    assert_respond_to converter, :occid
-    assert_nil converter.occid
-    converter.convert('繁体')
-    refute_nil converter.occid
-    assert_kind_of Integer, converter.occid
-    converter.close
-    assert_nil converter.occid
-  ensure
-    converter&.close
-  end
-
   def test_hk2s
     cfg    = :hk2s
     input  = get_input(cfg)
