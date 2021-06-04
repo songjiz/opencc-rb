@@ -6,7 +6,7 @@ module OpenCC
       def with(config, &block)
         converter = new(config)
         if block.arity == 0
-          converter.instance_eval(&:block)
+          converter.instance_eval(&block)
         else
           yield converter
         end
