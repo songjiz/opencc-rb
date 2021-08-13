@@ -92,14 +92,11 @@ OpenCC.jp2t("芸術 欠航 飲料缶") # => "藝術 缺航 飲料罐"
 OpenCC.tw2t("想到自己一緊張就口吃，我就沒胃口吃飯") # => "想到自己一緊張就口吃，我就沒胃口喫飯"
 
 # Or
-converter = OpenCC[:s2t]
-converter = OpenCC.new(:s2t)
+# You *must* call close when you're finished
 converter = OpenCC::Converter.new(:s2t)
 converter.convert("汉字") # => '漢字'
 converter.close # => true
-converter.closed? # => true
 converter.close # => false
-converter.convert("汉字") # => nil
 ```
 
 ## Development

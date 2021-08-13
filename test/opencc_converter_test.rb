@@ -9,20 +9,12 @@ class OpenCC::ConverterTest < Minitest::Test
     File.read(File.join(__dir__, 'data', "#{cfg}.ans" )).force_encoding("UTF-8").strip
   end
 
-  def test_that_it_respond_to_config
-    converter = OpenCC::Converter.new(:s2t)
-    assert_respond_to converter, :config
-    assert_equal converter.config, 's2t'
-  end
-
-  def test_that_it_respond_to_convert
-    converter = OpenCC::Converter.new(:s2t)
+  def test_instance_methods
+    converter = OpenCC::Converter.new
     assert_respond_to converter, :convert
-  end
-
-  def test_that_it_respond_to_close
-    converter = OpenCC::Converter.new(:s2t)
     assert_respond_to converter, :close
+  ensure
+    converter.close
   end
 
   def test_hk2s

@@ -1,38 +1,89 @@
 #include "opencc.h"
 
-VALUE rb_mOpenCC;
-VALUE rb_mOpenCC_Mixin;
+#define OPENCC_DEFAULT_CONFIG_SIMP_TO_TRAD "s2t.json"
 
-static VALUE rb_opencc_open(VALUE self, VALUE rb_cfg) {
-  const char *cfg = OPENCC_DEFAULT_CONFIG_SIMP_TO_TRAD;
-  opencc_t ptr;
+VALUE mOpenCC;
+VALUE cConverter;
 
-  if (TYPE(rb_cfg) == T_STRING && RSTRING_LEN(rb_cfg) > 0) {
-    cfg = RSTRING_PTR(rb_cfg);
+typedef struct {
+  opencc_t opencc;
+} opencc_converter_t;
+
+static void opencc_converter_t_dfree(void* _ptr) {
+  opencc_converter_t* ptr = (opencc_converter_t*)_ptr;
+  if (ptr->opencc != NULL && ptr->opencc != (opencc_t) - 1) {
+    opencc_close(ptr->opencc);
+  }
+  free(ptr);
+}
+
+static size_t opencc_converter_t_dsize(const void* _ptr) {
+  return sizeof(opencc_converter_t);
+}
+
+static const rb_data_type_t opencc_converter_data_type = {
+  .wrap_struct_name = "opencc converter object",
+  .function = {
+    .dfree = opencc_converter_t_dfree,
+    .dsize = opencc_converter_t_dsize,
+  },
+  .flags = RUBY_TYPED_FREE_IMMEDIATELY,
+};
+
+VALUE opencc_converter_t_alloc(VALUE self) {
+  opencc_converter_t *ptr = malloc(sizeof(opencc_converter_t));
+
+  return TypedData_Wrap_Struct(self, &opencc_converter_data_type, ptr);
+}
+
+static VALUE opencc_converter_t_initialize(int argc, VALUE* argv, VALUE self) {
+  opencc_converter_t *ptr;
+  const char *cfg = NULL;
+
+  if (argv[0] != Qnil) {
+    switch (TYPE(argv[0])) {
+      case T_SYMBOL:
+        cfg = RSTRING_PTR(rb_sym_to_s(argv[0]));
+        break;
+      case T_STRING:
+        cfg = RSTRING_PTR(argv[0]);
+        break;
+    }
   }
 
-  ptr = opencc_open(cfg);
+  TypedData_Get_Struct(self, opencc_converter_t, &opencc_converter_data_type, ptr);
+
+  ptr->opencc = opencc_open(cfg);
 
   // On error the return value will be (opencc_t) -1.
-  if (ptr == (opencc_t) - 1) {
-    return Qnil;
+  if (ptr->opencc == (opencc_t) - 1) {
+    free(ptr);
+    rb_raise(rb_eException, "%s", "(opencc_open) failed to allocate instance of opencc");
+  }
+  return self;
+}
+
+static VALUE opencc_converter_t_convert(VALUE self, VALUE input) {
+  opencc_converter_t *ptr;
+  TypedData_Get_Struct(self, opencc_converter_t, &opencc_converter_data_type, ptr);
+
+  if (ptr->opencc != NULL) {
+    char * buff = opencc_convert_utf8(ptr->opencc, RSTRING_PTR(input), RSTRING_LEN(input));
+    VALUE result = rb_utf8_str_new_cstr(buff);
+    opencc_convert_utf8_free(buff);
+    return result;
   } else {
-    return LONG2FIX((long)ptr);
+    rb_warn("%s", "opencc has been closed");
+    return Qnil;
   }
 }
 
-static VALUE rb_opencc_convert(VALUE self, VALUE rb_opencc, VALUE rb_str) {
-  opencc_t ptr = (opencc_t) FIX2LONG(rb_opencc);
-  char * buff = opencc_convert_utf8(ptr, RSTRING_PTR(rb_str), RSTRING_LEN(rb_str));
-  VALUE converted = rb_utf8_str_new_cstr(buff);
-  opencc_convert_utf8_free(buff);
-  return converted;
-}
+static VALUE opencc_converter_t_close(VALUE self) {
+  opencc_converter_t *ptr;
+  TypedData_Get_Struct(self, opencc_converter_t, &opencc_converter_data_type, ptr);
 
-static VALUE rb_opencc_close(VALUE self, VALUE rb_opencc) {
-  opencc_t ptr = (opencc_t) FIX2LONG(rb_opencc);
-
-  if (opencc_close(ptr) == 0) {
+  if (ptr->opencc != NULL && opencc_close(ptr->opencc) == 0) {
+    ptr->opencc = NULL;
     return Qtrue;
   } else {
     return Qfalse;
@@ -40,10 +91,11 @@ static VALUE rb_opencc_close(VALUE self, VALUE rb_opencc) {
 }
 
 void Init_opencc(void) {
-  rb_mOpenCC = rb_define_module("OpenCC");
-  rb_mOpenCC_Mixin = rb_define_module_under(rb_mOpenCC, "Mixin");
+  mOpenCC = rb_define_module("OpenCC");
+  cConverter = rb_define_class_under(mOpenCC, "Converter", rb_cObject);
 
-  rb_define_private_method(rb_mOpenCC_Mixin, "opencc_open", rb_opencc_open, 1);
-  rb_define_private_method(rb_mOpenCC_Mixin, "opencc_close", rb_opencc_close, 1);
-  rb_define_private_method(rb_mOpenCC_Mixin, "opencc_convert", rb_opencc_convert, 2);
+  rb_define_alloc_func(cConverter, opencc_converter_t_alloc);
+  rb_define_method(cConverter, "initialize", opencc_converter_t_initialize, -1);
+  rb_define_method(cConverter, "convert", opencc_converter_t_convert, 1);
+  rb_define_method(cConverter, "close", opencc_converter_t_close, 0);
 }
