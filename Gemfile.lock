@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    opencc-rb (1.0.5)
+    opencc-rb (1.0.6)
 
 GEM
   remote: https://rubygems.org/
@@ -21,4 +21,4 @@ DEPENDENCIES
   rake-compiler
 
 BUNDLED WITH
-   2.2.16
+   2.2.22
