@@ -18,6 +18,9 @@ addons:
     packages:
       - cmake
       - doxygen
+  homebrew:
+    packages:
+    - opencc
 before_install:
   - gem install bundler -v 2.1.4
 install:
