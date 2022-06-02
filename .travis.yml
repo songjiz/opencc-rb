@@ -9,15 +9,18 @@ compiler:
   - gcc
 cache: bundler
 rvm:
-  - 2.7.0
-  - 2.6.5
-  - 2.5.5
+  - 3.1.0
+  - 3.0.2
+  - 2.7.6
 addons:
   apt:
     update: true
     packages:
       - cmake
       - doxygen
+  homebrew:
+    packages:
+    - opencc
 before_install:
   - gem install bundler -v 2.1.4
 install:
